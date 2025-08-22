@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Consentimento & Relacionamento Saudável</title>
+  <meta name="description" content="Guia interativo sobre consentimento, relacionamento saudável e Lei Maria da Penha — com animações, quiz e recursos de apoio." />
+
+  <!-- ===========================
+       ESTILOS (CSS PURO)
+       =========================== -->
+  <style>
+    /* -------------------------
+       Reset & Variáveis
+       ------------------------- */
+    *,*::before,*::after{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    :root{
+      --bg:#0f1220;
+      --bg-soft:#14182b;
+      --panel:#191f36;
+      --text:#e8eaf6;
+      --muted:#b6bed3;
+      --brand:#ff5ca8;
+      --brand-2:#7c4dff;
+      --brand-3:#20c997;
+      --warning:#ffb020;
+      --danger:#ff5577;
+      --ok:#22c55e;
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --radius:18px;
+      --glass:rgba(255,255,255,.06);
+      --border:1px solid rgba(255,255,255,.08);
+      --grad:linear-gradient(135deg,var(--brand) 0%,var(--brand-2) 60%,#4dd0e1 100%);
+      --grad-soft:radial-gradient(1200px 600px at 10% 0%,rgba(255,92,168,.12),transparent 40%),
+                   radial-gradient(800px 400px at 100% 20%,rgba(124,77,255,.12),transparent 35%),
+                   radial-gradient(600px 300px at 50% 100%,rgba(32,201,151,.10),transparent 45%);
+      --speed: .6s;
+    }
+    /* tema claro */
+    .light{
+      --bg:#f7f8ff;
+      --bg-soft:#ffffff;
+      --panel:#ffffff;
+      --text:#24273a;
+      --muted:#55607a;
+      --glass:rgba(0,0,0,.04);
+      --border:1px solid rgba(0,0,0,.06);
+      --shadow:0 10px 25px rgba(16,22,60,.12);
+      --grad-soft:radial-gradient(1200px 600px at 10% 0%,rgba(255,92,168,.14),transparent 40%),
+                   radial-gradient(800px 400px at 100% 20%,rgba(124,77,255,.12),transparent 35%),
+                   radial-gradient(600px 300px at 50% 100%,rgba(32,201,151,.10),transparent 45%);
+    }
+
+    body{
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.65 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
+      overflow-x:hidden;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+
+    /* -------------------------
+       Utilitários
+       ------------------------- */
+    .container{width:min(1200px,92%);margin:auto}
+    .grid{display:grid;gap:24px}
+    .two{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .four{grid-template-columns:repeat(4,minmax(0,1fr))}
+    @media (max-width:940px){.two,.three,.four{grid-template-columns:1fr}}
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:12px 18px;border-radius:14px;border:none;
+      background:var(--grad);color:white;font-weight:700;
+      letter-spacing:.2px;cursor:pointer;box-shadow:var(--shadow);
+      transition:transform .2s ease,filter .2s ease;
+    }
+    .btn:hover{transform:translateY(-2px);filter:saturate(1.15)}
+    .btn.ghost{background:transparent;border:var(--border);color:var(--text)}
+    .chip{display:inline-flex;align-items:center;gap:8px;background:var(--glass);border:var(--border);padding:6px 10px;border-radius:999px;font-size:.84rem}
+    .muted{color:var(--muted)}
+    .badge{padding:5px 9px;border-radius:999px;font-size:.75rem;background:linear-gradient(90deg,rgba(255,92,168,.18),rgba(124,77,255,.18))}
+    .card{
+      background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,0)) , var(--glass);
+      border:var(--border); border-radius:var(--radius); padding:22px; box-shadow:var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .title{font-weight:900;letter-spacing:.5px;font-size:clamp(1.6rem,2.8vw,2.4rem);margin:0 0 8px}
+    .subtitle{margin:0;color:var(--muted)}
+
+    /* -------------------------
+       Cabeçalho e Hero
+       ------------------------- */
+    header.nav{
+      position:sticky;top:0;z-index:50;
+      background:linear-gradient(to bottom,rgba(0,0,0,.35),transparent), var(--bg);
+      backdrop-filter: blur(8px);
+      border-bottom:var(--border);
+    }
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;padding:14px 0}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900}
+    .logo{
+      width:36px;height:36px;border-radius:10px;background:var(--grad);
+      box-shadow:0 6px 16px rgba(255,92,168,.35), inset 0 0 30px rgba(255,255,255,.2);
+    }
+    .nav-links{display:flex;gap:18px;flex-wrap:wrap}
+    .nav-links a{padding:8px 12px;border-radius:10px}
+    .nav-links a:hover{background:var(--glass)}
+    .theme{
+      display:flex;align-items:center;gap:8px;background:var(--glass);border:var(--border);border-radius:999px;padding:6px 10px
+    }
+    .toggle{appearance:none;width:56px;height:30px;border-radius:999px;background:linear-gradient(90deg,#777,#333);position:relative;cursor:pointer;outline:0;border:none}
+    .toggle::after{
+      content:"";position:absolute;inset:4px auto 4px 4px;width:22px;border-radius:999px;background:#fff;transition:transform .3s ease;
+      box-shadow:0 3px 10px rgba(0,0,0,.3)
+    }
+    body.light .toggle{background:linear-gradient(90deg,#ddd,#aaa)}
+    body.light .toggle::after{transform:translateX(26px)}
+
+    .hero{
+      position:relative; padding:80px 0 60px;
+      background:var(--grad-soft);
+      overflow:hidden;
+    }
+    .hero .columns{display:grid;grid-template-columns:1.2fr .8fr;gap:32px}
+    @media (max-width:940px){.hero .columns{grid-template-columns:1fr}}
+    .hero h1{font-size:clamp(2.1rem,4.2vw,3.4rem);line-height:1.1;margin:0 0 14px}
+    .hero p{margin:0 0 18px;font-size:1.1rem}
+    .hero-cta{display:flex;gap:12px;flex-wrap:wrap}
+    .hero .stat{
+      display:flex;align-items:center;gap:12px;padding:10px 12px;background:var(--glass);border:var(--border);border-radius:14px
+    }
+    .hero-illustration{
+      position:relative;min-height:320px;border-radius:22px;overflow:hidden;border:var(--border);background:linear-gradient(180deg,rgba(255,255,255,.06),transparent), var(--bg-soft);box-shadow:var(--shadow)
+    }
+    /* Partículas canvas cobre toda a ilustração */
+    .hero-illustration canvas{position:absolute;inset:0;width:100%;height:100%}
+    .orbit{
+      position:absolute;inset:auto 0 0 0;display:grid;place-items:center;height:100%;
+      pointer-events:none;
+    }
+    .orbit .planet{
+      width:160px;height:160px;border-radius:50%;background:var(--grad);
+      filter:drop-shadow(0 20px 30px rgba(255,92,168,.35));
+      animation:float 6s ease-in-out infinite;
+    }
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+
+    /* -------------------------
+       Seções genéricas
+       ------------------------- */
+    section{padding:80px 0; position:relative}
+    section .head{margin-bottom:26px}
+    .kicker{font-size:.82rem;letter-spacing:.25em;text-transform:uppercase;opacity:.8}
+
+    /* -------------------------
+       Cards / Ícones / Animações
+       ------------------------- */
+    .icon{
+      width:38px;height:38px;border-radius:12px;display:grid;place-items:center;
+      background:linear-gradient(135deg,rgba(255,92,168,.25),rgba(124,77,255,.25));
+      border:var(--border)
+    }
+    .card:hover{transform:translateY(-4px);transition:transform .2s ease}
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity var(--speed) ease,transform var(--speed) ease}
+    .reveal.show{opacity:1;transform:none}
+
+    /* -------------------------
+       Tabs
+       ------------------------- */
+    .tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+    .tab{padding:10px 14px;border-radius:999px;background:var(--glass);border:var(--border);cursor:pointer}
+    .tab.active{background:var(--grad);color:#fff}
+
+    /* -------------------------
+       Linha do tempo
+       ------------------------- */
+    .timeline{position:relative;margin:10px 0;padding-left:26px}
+    .timeline::before{content:"";position:absolute;left:12px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--brand),transparent)}
+    .t-item{position:relative;margin:18px 0;padding-left:8px}
+    .t-item::before{content:"";position:absolute;left:-20px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--brand);box-shadow:0 0 0 4px rgba(255,92,168,.2)}
+
+    /* -------------------------
+       Accordion
+       ------------------------- */
+    .acc{display:grid;gap:14px}
+    .acc details{
+      background:var(--glass);border:var(--border);border-radius:14px;padding:14px
+    }
+    .acc summary{cursor:pointer;font-weight:700}
+    .acc p{margin:10px 0 0}
+
+    /* -------------------------
+       Slider simples
+       ------------------------- */
+    .slider{position:relative;overflow:hidden;border-radius:18px;border:var(--border);background:var(--bg-soft)}
+    .slides{display:flex;transition:transform .6s ease}
+    .slide{flex:0 0 100%;padding:28px}
+    .dots{display:flex;gap:8px;justify-content:center;margin-top:10px}
+    .dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.25);border:var(--border);cursor:pointer}
+    .dot.active{background:var(--brand)}
+
+    /* -------------------------
+       Checklist
+       ------------------------- */
+    .checklist{display:grid;gap:10px}
+    .check{display:flex;gap:12px;align-items:center;background:var(--glass);border:var(--border);padding:12px;border-radius:12px}
+    .check input{width:18px;height:18px}
+
+    /* -------------------------
+       Quiz
+       ------------------------- */
+    .quiz{display:grid;gap:16px}
+    .q-progress{height:10px;background:rgba(255,255,255,.15);border-radius:999px;overflow:hidden;border:var(--border)}
+    .q-fill{height:100%;background:var(--grad)}
+    .q-options{display:grid;gap:10px}
+    .q-options button{
+      padding:12px;border-radius:12px;border:var(--border);background:var(--glass);
+      text-align:left;cursor:pointer;font-weight:600
+    }
+    .q-options button.correct{outline:2px solid var(--ok)}
+    .q-options button.wrong{outline:2px solid var(--danger)}
+    .q-actions{display:flex;gap:10px;flex-wrap:wrap}
+    .score{font-weight:900}
+
+    /* -------------------------
+       Modal
+       ------------------------- */
+    .modal-back{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;z-index:100}
+    .modal{width:min(720px,92%);background:var(--panel);border:var(--border);border-radius:18px;box-shadow:var(--shadow);padding:20px}
+    .modal-back.show{display:flex}
+
+    /* -------------------------
+       Rodapé
+       ------------------------- */
+    footer{padding:40px 0;margin-top:40px;border-top:var(--border);background:linear-gradient(180deg,rgba(255,255,255,.02),transparent)}
+    .foot{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between}
+    .links{display:flex;gap:12px;flex-wrap:wrap}
+  </style>
+</head>
+<body>
+  <!-- ===========================
+       NAV
+       =========================== -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div style="font-size:14px;opacity:.8;letter-spacing:.2em;text-transform:uppercase">Guia Interativo</div>
+          <div style="font-size:18px">Consentimento & Relacionamento</div>
+        </div>
+      </div>
+
+      <nav class="nav-links">
+        <a href="#intro">Início</a>
+        <a href="#consent">Consentimento</a>
+        <a href="#healthy">Relacionamento</a>
+        <a href="#lei">Lei Maria da Penha</a>
+        <a href="#exemplos">Cenários</a>
+        <a href="#quiz">Quiz</a>
+        <a href="#recursos">Ajuda</a>
+      </nav>
+
+      <div class="theme">
+        <span class="chip" id="hotlineBtn">☎ Ajuda 180</span>
+        <input id="themeToggle" type="checkbox" class="toggle" aria-label="Alternar tema" />
+      </div>
+    </div>
+  </header>
+
+  <!-- ===========================
+       HERO
+       =========================== -->
+  <section class="hero" id="intro">
+    <div class="container columns">
+      <div>
+        <div class="badge">Respeito começa com consentimento</div>
+        <h1>Informação bonita, prática e <span style="background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent">interativa</span>.</h1>
+        <p class="muted">Aprenda como comunicar limites, reconhecer sinais de alerta, apoiar quem precisa e conhecer seus direitos. Conteúdo pensado para escolas, projetos sociais e jovens.</p>
+
+        <div class="hero-cta">
+          <a class="btn" href="#consent">Começar agora</a>
+          <a class="btn ghost" href="#quiz">Fazer o Quiz</a>
+          <span class="hero stat"><span class="icon">💬</span> <b>+500</b> frases exemplo</span>
+          <span class="hero stat"><span class="icon">🛡️</span> <b>5</b> formas de violência</span>
+        </div>
+      </div>
+
+      <div class="hero-illustration">
+        <canvas id="particles"></canvas>
+        <div class="orbit">
+          <div class="planet" aria-hidden="true"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       FUNDAMENTOS DO CONSENTIMENTO
+       =========================== -->
+  <section id="consent">
+    <div class="container">
+      <div class="head">
+        <div class="kicker">Fundamentos</div>
+        <h2 class="title">O que é consentimento?</h2>
+        <p class="subtitle">Consentimento é um <b>acordo claro, livre e informado</b>. Não é adivinhação. Pode ser <b>retirado a qualquer momento</b>. Sem consentimento, não há respeito.</p>
+      </div>
+
+      <div class="grid three">
+        <div class="card reveal">
+          <div class="chip"><span class="icon">🕊️</span> Livre & Voluntário</div>
+          <p>Sem pressão, chantagem, medo ou culpa. Ninguém “deve” nada em troca de carinho, presentes ou favores. “Não” é resposta completa e suficiente.</p>
+          <ul class="muted">
+            <li>• Nada de “Se me ama, prova”.</li>
+            <li>• Sem insistência repetitiva.</li>
+            <li>• Sem manipulação emocional.</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="chip"><span class="icon">🔎</span> Claro & Específico</div>
+          <p>Combine e confirme o que a outra pessoa deseja. Silêncio, imobilidade ou desconforto <b>não</b> significam consentimento.</p>
+          <ul class="muted">
+            <li>• Pergunte: “Posso te abraçar?”</li>
+            <li>• Cheque: “Tá confortável continuar?”</li>
+            <li>• Observe linguagem corporal.</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="chip"><span class="icon">🔁</span> Contínuo</div>
+          <p>Cada etapa exige novo acordo. Um “sim” para X não é “sim” para Y. A pessoa pode <b>mudar de ideia</b> e deve ser respeitada.</p>
+          <ul class="muted">
+            <li>• “Podemos parar um pouco?”</li>
+            <li>• “Hoje não tô a fim.”</li>
+            <li>• “Prefiro só conversar.”</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid two" style="margin-top:26px">
+        <div class="card reveal">
+          <h3 class="title" style="font-size:1.3rem">Mitos x Fatos</h3>
+          <div class="acc">
+            <details open>
+              <summary>“Namoro = consentimento automático”</summary>
+              <p><b>Fato:</b> Relacionamento não é autorização geral. Cada ato requer acordo específico.</p>
+            </details>
+            <details>
+              <summary>“Dizer não estraga o clima”</summary>
+              <p><b>Fato:</b> Limites claros aumentam segurança e confiança — o clima melhora quando há respeito.</p>
+            </details>
+            <details>
+              <summary>“Se ficou uma vez, sempre quer de novo”</summary>
+              <p><b>Fato:</b> Vontades mudam. Consentimento vale só para aquele momento.</p>
+            </details>
+            <details>
+              <summary>“Só ‘não’ verbal conta”</summary>
+              <p><b>Fato:</b> Corpo fala: hesitação, rigidez, choro e silêncio importam. Pare e <b>pergunte</b>.</p>
+            </details>
+          </div>
+        </div>
+
+        <div class="card reveal">
+          <h3 class="title" style="font-size:1.3rem">Frases úteis (comunicação)</h3>
+          <div class="tabs" id="phraseTabs">
+            <button class="tab active" data-tab="perguntar">Perguntar</button>
+            <button class="tab" data-tab="checar">Checar</button>
+            <button class="tab" data-tab="limites">Limites</button>
+            <button class="tab" data-tab="encerrar">Encerrar</button>
+          </div>
+          <div id="tabContent">
+            <div data-panel="perguntar">
+              <ul class="muted">
+                <li>• “Posso te dar um beijo?”</li>
+                <li>• “Você quer segurar minha mão?”</li>
+                <li>• “Se sentir desconforto, me fala, tá?”</li>
+              </ul>
+            </div>
+            <div data-panel="checar" hidden>
+              <ul class="muted">
+                <li>• “Tudo bem continuar?”</li>
+                <li>• “Quer desacelerar?”</li>
+                <li>• “Como você prefere?”</li>
+              </ul>
+            </div>
+            <div data-panel="limites" hidden>
+              <ul class="muted">
+                <li>• “Pra mim, nudes não rola.”</li>
+                <li>• “Hoje eu só quero companhia.”</li>
+                <li>• “Sem álcool pra decidir coisas íntimas.”</li>
+              </ul>
+            </div>
+            <div data-panel="encerrar" hidden>
+              <ul class="muted">
+                <li>• “Quero parar agora.”</li>
+                <li>• “Não tô confortável.”</li>
+                <li>• “Podemos conversar amanhã?”</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card reveal" style="margin-top:26px">
+        <h3 class="title" style="font-size:1.3rem">Checklist de práticas saudáveis</h3>
+        <div class="checklist" id="checklist">
+          <label class="check"><input type="checkbox"> Pergunto antes de tocar (abraço, beijo, carinho).</label>
+          <label class="check"><input type="checkbox"> Respeito o “não” sem insistir.</label>
+          <label class="check"><input type="checkbox"> Combino limites e proteções (camisinha, privacidade digital).</label>
+          <label class="check"><input type="checkbox"> Não uso ciúme/pressão para conseguir algo.</label>
+          <label class="check"><input type="checkbox"> Pauso e checo quando percebo desconforto.</label>
+        </div>
+        <div class="chip" id="checkStatus">✅ 0/5 concluídos</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       RELACIONAMENTO SAUDÁVEL
+       =========================== -->
+  <section id="healthy">
+    <div class="container">
+      <div class="head">
+        <div class="kicker">Convivência</div>
+        <h2 class="title">Como é um relacionamento saudável?</h2>
+        <p class="subtitle">Baseado em <b>respeito</b>, <b>comunicação</b>, <b>confiança</b> e <b>autonomia</b>. Vigilância, controle e medo são sinais de alerta.</p>
+      </div>
+
+      <div class="grid three">
+        <div class="card reveal">
+          <div class="icon">🤝</div>
+          <h3 class="title" style="font-size:1.2rem">Parceria</h3>
+          <p>Tomadas de decisão compartilhadas, apoio nos estudos, trabalho e amizades. Ninguém manda no outro.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon">💬</div>
+          <h3 class="title" style="font-size:1.2rem">Comunicação</h3>
+          <p>Conversa honesta sem humilhação. Discutir sem ofensa, combinar limites, pedir desculpas quando errar.</p>
+        </div>
+        <div class="card reveal">
+          <div class="icon">🛡️</div>
+          <h3 class="title" style="font-size:1.2rem">Segurança</h3>
+          <p>Nada de violência: física, psicológica, sexual, patrimonial ou moral. O lar e as mensagens devem ser espaços seguros.</p>
+        </div>
+      </div>
+
+      <div class="grid two" style="margin-top:26px">
+        <div class="card reveal">
+          <h3 class="title" style="font-size:1.3rem">Sinais de alerta (red flags)</h3>
+          <ul class="muted">
+            <li>• Ciúme excessivo, checar celular, isolar de amigos/família.</li>
+            <li>• Pressão sexual, chantagem com presentes ou “provas de amor”.</li>
+            <li>• Ofensas, humilhações, “brincadeiras” que machucam.</li>
+            <li>• Quebrar objetos, ameaçar, controlar dinheiro/roupas.</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <h3 class="title" style="font-size:1.3rem">Como pedir ajuda</h3>
+          <div class="timeline">
+            <div class="t-item">
+              <b>Converse com alguém seguro</b>
+              <div class="muted">Amigo(a), familiar, professor, liderança comunitária.</div>
+            </div>
+            <div class="t-item">
+              <b>Registre</b>
+              <div class="muted">Guarde prints, mensagens, fotos de lesões e datas.</div>
+            </div>
+            <div class="t-item">
+              <b>Busque serviços</b>
+              <div class="muted">CREAS/CRAS, Defensoria Pública, Unidade de Saúde.</div>
+            </div>
+            <div class="t-item">
+              <b>Ligue 180 ou 190</b>
+              <div class="muted">180 (orientação e acolhimento). 190 em risco imediato.</div>
+            </div>
+          </div>
+          <button class="btn" id="openHelp">Abrir lista de contatos</button>
+        </div>
+      </div>
+
+      <div class="slider reveal" style="margin-top:26px">
+        <div class="slides" id="slides">
+          <div class="slide">
+            <h3 class="title" style="font-size:1.2rem">Frase para conversar sem brigar</h3>
+            <p class="muted">“Eu me sinto <b>triste</b> quando <b>não respondemos por horas</b>. Podemos combinar um horário para falar?”</p>
+          </div>
+          <div class="slide">
+            <h3 class="title" style="font-size:1.2rem">Como marcar limites</h3>
+            <p class="muted">“Não quero compartilhar senhas. Confiança não é vigilância. Posso te mostrar como proteger a privacidade sem isso.”</p>
+          </div>
+          <div class="slide">
+            <h3 class="title" style="font-size:1.2rem">Quando alguém recua</h3>
+            <p class="muted">“Obrigado por me contar. Vamos parar e cuidar de você. Se quiser, conversamos depois.”</p>
+          </div>
+        </div>
+        <div class="dots" id="dots"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       LEI MARIA DA PENHA
+       =========================== -->
+  <section id="lei">
+    <div class="container">
+      <div class="head">
+        <div class="kicker">Base legal no Brasil</div>
+        <h2 class="title">Lei nº 11.340/2006 — Lei Maria da Penha</h2>
+        <p class="subtitle">Cria mecanismos para coibir e prevenir a <b>violência doméstica e familiar contra a mulher</b>. Ampara vítimas, prevê medidas protetivas e políticas públicas.</p>
+      </div>
+
+      <div class="grid three">
+        <div class="card reveal">
+          <div class="icon">📜</div>
+          <h3 class="title" style="font-size:1.2rem">O que diz</h3>
+          <p>Reconhece diferentes formas de violência e define que o poder público deve oferecer proteção, atendimento humanizado e acesso à justiça.</p>
+          <ul class="muted">
+            <li>• Aplica-se a relações domésticas, íntimas e familiares.</li>
+            <li>• Prioriza segurança e integridade física/psicológica.</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">🧭</div>
+          <h3 class="title" style="font-size:1.2rem">5 formas de violência</h3>
+          <ul class="muted">
+            <li>• <b>Física:</b> agressões, empurrões, lesões.</li>
+            <li>• <b>Psicológica:</b> ameaça, humilhação, manipulação, isolamento.</li>
+            <li>• <b>Sexual:</b> sem consentimento, pressão, impedir contracepção.</li>
+            <li>• <b>Patrimonial:</b> quebrar/retirar bens, controlar dinheiro.</li>
+            <li>• <b>Moral:</b> calúnia, injúria, difamação.</li>
+          </ul>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">⚖️</div>
+          <h3 class="title" style="font-size:1.2rem">Medidas protetivas</h3>
+          <ul class="muted">
+            <li>• Afastamento imediato do agressor.</li>
+            <li>• Proibição de contato e aproximação.</li>
+            <li>• Suspensão de porte de arma.</li>
+            <li>• Garantia de proteção à vítima e filhos.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="grid two" style="margin-top:26px">
+        <div class="card reveal">
+          <h3 class="title" style="font-size:1.3rem">Como denunciar</h3>
+          <ol class="muted">
+            <li><b>Emergência:</b> 190 (risco imediato) — Polícia Militar.</li>
+            <li><b>Orientação e acolhimento:</b> 180 (Central de Atendimento à Mulher).</li>
+            <li><b>Delegacia:</b> procure a Delegacia da Mulher (se houver na sua cidade) ou uma delegacia comum.</li>
+            <li><b>Defensoria Pública:</b> ajuda jurídica gratuita.</li>
+            <li><b>Aplicativos e canais locais:</b> informe-se sobre serviços do seu estado/município.</li>
+          </ol>
+          <p class="muted">Guarde provas (prints, laudos, fotos de lesões), datas e testemunhas.</p>
+        </div>
+
+        <div class="card reveal">
+          <h3 class="title" style="font-size:1.3rem">Consentimento & a lei</h3>
+          <p>A lei se relaciona diretamente ao consentimento ao reconhecer a <b>violência sexual</b> e psicológica. <b>Sem consentimento não há relação saudável</b>. Pressão, ameaça ou incapacidade (álcool/drogas) <b>anulam</b> o consentimento.</p>
+          <p class="muted">Em dúvida, <b>pare</b>, <b>pergunte</b> e <b>respeite</b>.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       CENÁRIOS
+       =========================== -->
+  <section id="exemplos">
+    <div class="container">
+      <div class="head">
+        <div class="kicker">Treine a comunicação</div>
+        <h2 class="title">Cenários & respostas</h2>
+        <p class="subtitle">Escolha a melhor resposta. Clique para ver o feedback.</p>
+      </div>
+
+      <div class="grid three">
+        <!-- Card 1 -->
+        <div class="card reveal">
+          <div class="chip"><span class="icon">🎬</span> Cinema</div>
+          <p class="muted">Você quer segurar a mão. A pessoa hesita.</p>
+          <div class="q-options" data-scenario>
+            <button data-correct>“Posso segurar sua mão?” (aguardar resposta)</button>
+            <button>Segurar assim mesmo, “depois acostuma”.</button>
+            <button>Ficar bravo e dizer “você não gosta de mim”.</button>
+          </div>
+          <div class="chip" data-feedback></div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card reveal">
+          <div class="chip"><span class="icon">🍻</span> Festa com álcool</div>
+          <p class="muted">A pessoa está alterada e te beija.</p>
+          <div class="q-options" data-scenario>
+            <button data-correct>Levar a um local seguro e combinar de conversar sóbrios.</button>
+            <button>Aproveitar a oportunidade.</button>
+            <button>Dar bebida para “desinibir”.</button>
+          </div>
+          <div class="chip" data-feedback></div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="card reveal">
+          <div class="chip"><span class="icon">📱</span> Mensagens íntimas</div>
+          <p class="muted">Você quer enviar foto íntima.</p>
+          <div class="q-options" data-scenario>
+            <button data-correct>Perguntar se a pessoa quer receber e falar de privacidade.</button>
+            <button>Enviar sem pedir porque “somos namorados”.</button>
+            <button>Chantagear por troca.</button>
+          </div>
+          <div class="chip" data-feedback></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       QUIZ
+       =========================== -->
+  <section id="quiz">
+    <div class="container">
+      <div class="head">
+        <div class="kicker">Teste rápido</div>
+        <h2 class="title">Você pratica consentimento?</h2>
+        <p class="subtitle">Responda 8 perguntas. Veja explicações e sua pontuação.</p>
+      </div>
+
+      <div class="card reveal">
+        <div class="q-progress"><div class="q-fill" id="qFill" style="width:0%"></div></div>
+        <div id="qText" style="margin:12px 0;font-weight:800">—</div>
+        <div class="q-options" id="qOptions"></div>
+        <div id="qExplain" class="muted" style="min-height:24px;margin-top:6px"></div>
+        <div class="q-actions">
+          <button class="btn ghost" id="prevQ">Anterior</button>
+          <button class="btn" id="nextQ">Próxima</button>
+          <span class="chip"><b class="score" id="score">0</b> / <span id="total">0</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       RECURSOS
+       =========================== -->
+  <section id="recursos">
+    <div class="container">
+      <div class="head">
+        <div class="kicker">Onde buscar ajuda</div>
+        <h2 class="title">Canais de apoio e denúncia</h2>
+        <p class="subtitle">Se você ou alguém que conhece está em risco, procure ajuda.</p>
+      </div>
+
+      <div class="grid three">
+        <div class="card reveal">
+          <h3 class="title" style="font-size:1.2rem">Emergência</h3>
+          <p class="muted">Polícia Militar — <b>190</b></p>
+          <p class="muted">Risco imediato: ligue agora.</p>
+        </div>
+        <div class="card reveal">
+          <h3 class="title" style="font-size:1.2rem">Central 180</h3>
+          <p class="muted">Atendimento à Mulher — <b>180</b></p>
+          <p class="muted">Escuta, acolhimento e orientações.</p>
+        </div>
+        <div class="card reveal">
+          <h3 class="title" style="font-size:1.2rem">Direitos & Apoio</h3>
+          <p class="muted">Defensoria Pública, CREAS/CRAS, saúde mental, delegacias especializadas.</p>
+        </div>
+      </div>
+
+      <div class="card reveal" style="margin-top:26px">
+        <h3 class="title" style="font-size:1.3rem">Perguntas frequentes (FAQ)</h3>
+        <div class="acc">
+          <details>
+            <summary>Posso mudar de ideia no meio?</summary>
+            <p>Sim. Consentimento é contínuo. Diga que quer parar — a outra pessoa deve respeitar.</p>
+          </details>
+          <details>
+            <summary>Silêncio vale como “sim”?</summary>
+            <p>Não. É preciso um acordo claro. Observe sinais não-verbais e pergunte.</p>
+          </details>
+          <details>
+            <summary>Álcool ou drogas afetam o consentimento?</summary>
+            <p>Sim. Se a pessoa não consegue decidir livremente, <b>não há consentimento válido</b>.</p>
+          </details>
+          <details>
+            <summary>E se eu estiver com medo de denunciar?</summary>
+            <p>Busque alguém de confiança, ligue 180 para orientação e 190 em risco imediato. Você não está só.</p>
+          </details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===========================
+       MODAL DE AJUDA
+       =========================== -->
+  <div class="modal-back" id="modal">
+    <div class="modal">
+      <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+        <h3 class="title" style="font-size:1.3rem;margin:0">Canais de Ajuda Rápida</h3>
+        <button class="btn ghost" id="closeModal">Fechar</button>
+      </div>
+      <div class="grid two" style="margin-top:10px">
+        <div class="card">
+          <div class="icon">📞</div>
+          <b>Central 180</b>
+          <p class="muted">Acolhimento, orientação e encaminhamentos.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🚓</div>
+          <b>Emergência 190</b>
+          <p class="muted">Chame a Polícia Militar em situação de risco imediato.</p>
+        </div>
+        <div class="card">
+          <div class="icon">⚖️</div>
+          <b>Defensoria Pública</b>
+          <p class="muted">Assistência jurídica gratuita. Procure a unidade do seu estado.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🏥</div>
+          <b>Saúde</b>
+          <p class="muted">Atendimento médico/psicológico, coleta de vestígios e laudos.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===========================
+       RODAPÉ
+       =========================== -->
+  <footer>
+    <div class="container foot">
+      <div class="brand">
+        <div class="logo"></div>
+        <div>
+          <div style="font-size:14px;opacity:.8;letter-spacing:.2em;text-transform:uppercase">Guia</div>
+          <div style="font-size:18px">Consentimento</div>
+        </div>
+      </div>
+      <div class="links">
+        <a class="chip" href="#intro">Topo</a>
+        <a class="chip" href="#lei">Lei</a>
+        <a class="chip" href="#quiz">Quiz</a>
+      </div>
+      <div class="muted">© <span id="year"></span> Feito com respeito.</div>
+    </div>
+  </footer>
+
+  <!-- ===========================
+       JS (SEM BIBLIOTECAS EXTERNAS)
+       =========================== -->
+  <script>
+    /* Util: selecionar */
+    const $ = (sel,scope=document)=>scope.querySelector(sel);
+    const $$ = (sel,scope=document)=>[...scope.querySelectorAll(sel)];
+
+    /* Ano no rodapé */
+    $('#year').textContent = new Date().getFullYear();
+
+    /* Tema com persistência */
+    const themeToggle = $('#themeToggle');
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if(savedTheme==='light'){document.body.classList.add('light');themeToggle.checked=true;}
+    themeToggle.addEventListener('change',()=>{
+      document.body.classList.toggle('light', themeToggle.checked);
+      localStorage.setItem('theme', themeToggle.checked?'light':'dark');
+    });
+
+    /* Modal Ajuda */
+    const modal = $('#modal');
+    $('#hotlineBtn').addEventListener('click',()=>modal.classList.add('show'));
+    $('#openHelp').addEventListener('click',()=>modal.classList.add('show'));
+    $('#closeModal').addEventListener('click',()=>modal.classList.remove('show'));
+    modal.addEventListener('click',(e)=>{ if(e.target===modal) modal.classList.remove('show') });
+
+    /* Partículas no hero (canvas) */
+    (function particles(){
+      const cvs = $('#particles');
+      const ctx = cvs.getContext('2d');
+      let w,h,px,py,arr=[];
+      const DPR = window.devicePixelRatio||1;
+      function resize(){
+        w=cvs.clientWidth; h=cvs.clientHeight;
+        cvs.width=w*DPR; cvs.height=h*DPR; ctx.scale(DPR,DPR);
+        arr = Array.from({length:70}, ()=>({
+          x: Math.random()*w,
+          y: Math.random()*h,
+          r: 1+Math.random()*2,
+          vx: -.6 + Math.random()*1.2,
+          vy: -.4 + Math.random()*.8,
+          c: Math.random()<.5 ? 'rgba(255,92,168,.7)' : 'rgba(124,77,255,.7)'
+        }));
+      }
+      resize(); window.addEventListener('resize',resize);
+      cvs.addEventListener('mousemove',e=>{const rect=cvs.getBoundingClientRect();px=e.clientX-rect.left;py=e.clientY-rect.top;});
+      function step(){
+        ctx.clearRect(0,0,w,h);
+        for(const p of arr){
+          p.x+=p.vx; p.y+=p.vy;
+          if(p.x<0||p.x>w) p.vx*=-1;
+          if(p.y<0||p.y>h) p.vy*=-1;
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle=p.c; ctx.fill();
+          if(px!=null){
+            const dx=p.x-px, dy=p.y-py, d=Math.hypot(dx,dy);
+            if(d<90){
+              ctx.beginPath();
+              ctx.moveTo(p.x,p.y);
+              ctx.lineTo(px,py);
+              ctx.strokeStyle='rgba(255,255,255,.1)';
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(step);
+      }
+      step();
+    })();
+
+    /* Reveal on scroll (IntersectionObserver) */
+    const io = new IntersectionObserver(entries=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          e.target.classList.add('show');
+          io.unobserve(e.target);
+        }
+      })
+    },{threshold:.15});
+    $$('.reveal').forEach(el=>io.observe(el));
+
+    /* Tabs (frases) */
+    const tabWrap = $('#phraseTabs');
+    const panels = $$('#tabContent [data-panel]');
+    tabWrap.addEventListener('click',e=>{
+      const btn = e.target.closest('.tab'); if(!btn) return;
+      $$('.tab',tabWrap).forEach(t=>t.classList.toggle('active',t===btn));
+      const id = btn.dataset.tab;
+      panels.forEach(p=>p.hidden = p.dataset.panel!==id);
+    });
+
+    /* Checklist */
+    const checks = $$('#checklist input');
+    const status = $('#checkStatus');
+    function updateCheck(){
+      const done = checks.filter(c=>c.checked).length;
+      status.textContent = (done===checks.length?'🌟':'✅')+' '+done+'/'+checks.length+' concluídos';
+    }
+    checks.forEach(c=>c.addEventListener('change',updateCheck));
+
+    /* Slider simples */
+    const slides = $('#slides');
+    const dotsWrap = $('#dots');
+    const totalSlides = $$('.slide',slides).length;
+    let slideIdx = 0;
+    function renderDots(){
+      dotsWrap.innerHTML='';
+      for(let i=0;i<totalSlides;i++){
+        const d = document.createElement('button');
+        d.className='dot'+(i===slideIdx?' active':'');
+        d.addEventListener('click',()=>{slideIdx=i;updateSlide()});
+        dotsWrap.appendChild(d);
+      }
+    }
+    function updateSlide(){
+      slides.style.transform = `translateX(${-slideIdx*100}%)`;
+      $$('.dot',dotsWrap).forEach((el,i)=>el.classList.toggle('active',i===slideIdx));
+    }
+    renderDots(); setInterval(()=>{slideIdx=(slideIdx+1)%totalSlides; updateSlide()},5000);
+
+    /* Cenários de escolha (feedback) */
+    $$('.q-options[data-scenario]').forEach(box=>{
+      const fb = $('[data-feedback]', box.parentElement);
+      box.addEventListener('click',e=>{
+        const btn = e.target.closest('button'); if(!btn) return;
+        const ok = btn.hasAttribute('data-correct');
+        fb.textContent = ok ? '✅ Ótima escolha! Você priorizou o respeito e a comunicação.' :
+                              '⚠️ Reflita: consentimento exige cuidado, sem pressão nem suposições.';
+        fb.style.background = ok ? 'rgba(34,197,94,.15)' : 'rgba(255,85,119,.15)';
+      });
+    });
+
+    /* QUIZ dinâmico */
+    const QUIZ = [
+      {
+        q: 'Silêncio significa consentimento?',
+        a: ['Sim','Não'],
+        correct: 1,
+        explain: 'Silêncio/rigidez/medo não são “sim”. É preciso acordo claro.'
+      },
+      {
+        q: 'Consentimento pode ser retirado durante o ato?',
+        a: ['Não, depois que começou tem que ir até o fim','Sim, a qualquer momento'],
+        correct: 1,
+        explain: 'É contínuo: a pessoa pode mudar de ideia e deve ser respeitada.'
+      },
+      {
+        q: 'Beber muito afeta a capacidade de consentir?',
+        a: ['Sim','Não'],
+        correct: 0,
+        explain: 'Se a pessoa não decide livremente, não há consentimento válido.'
+      },
+      {
+        q: 'No namoro existe obrigação sexual?',
+        a: ['Não','Sim'],
+        correct: 0,
+        explain: 'Relação saudável não é dívida; pressão é sinal de alerta.'
+      },
+      {
+        q: 'É correto compartilhar nudes de outra pessoa?',
+        a: ['Não, é violência e crime em muitos contextos','Sim, se eu recebi posso enviar'],
+        correct: 0,
+        explain: 'Divulgação sem consentimento fere privacidade e pode ser crime.'
+      },
+      {
+        q: 'Percebi desconforto: devo parar para checar?',
+        a: ['Sim','Não'],
+        correct: 0,
+        explain: 'Observe o corpo e pergunte. Respeito vem primeiro.'
+      },
+      {
+        q: '“Se me ama, prova” é saudável?',
+        a: ['Não','Sim'],
+        correct: 0,
+        explain: 'Chantagem emocional viola a autonomia do outro.'
+      },
+      {
+        q: 'Consentimento é específico?',
+        a: ['Sim, para cada ato e momento','Não, um “sim” vale para tudo'],
+        correct: 0,
+        explain: 'Vale apenas para aquilo combinado naquele momento.'
+      }
+    ];
+    const qText = $('#qText');
+    const qOptions = $('#qOptions');
+    const qExplain = $('#qExplain');
+    const qFill = $('#qFill');
+    const prevQ = $('#prevQ');
+    const nextQ = $('#nextQ');
+    const scoreEl = $('#score');
+    const totalEl = $('#total');
+    let qi=0, score=0, answered=Array(QUIZ.length).fill(null);
+    totalEl.textContent = QUIZ.length;
+
+    function renderQ(){
+      const item = QUIZ[qi];
+      qText.textContent = `Pergunta ${qi+1}/${QUIZ.length}: ${item.q}`;
+      qOptions.innerHTML='';
+      item.a.forEach((txt,idx)=>{
+        const b=document.createElement('button'); b.textContent = txt;
+        b.addEventListener('click',()=>{
+          if(answered[qi]!=null) return; // evita repetir
+          answered[qi]=idx;
+          if(idx===item.correct){ b.classList.add('correct'); score++; scoreEl.textContent=score }
+          else { b.classList.add('wrong'); }
+          // destacar a correta
+          [...qOptions.children].forEach((x,i)=>{ if(i===item.correct) x.classList.add('correct') });
+          qExplain.textContent = item.explain;
+        });
+        qOptions.appendChild(b);
+      });
+      qExplain.textContent='';
+      qFill.style.width = ((qi)/QUIZ.length*100)+'%';
+      prevQ.disabled = qi===0;
+      nextQ.textContent = qi===QUIZ.length-1 ? 'Finalizar' : 'Próxima';
+    }
+    renderQ();
+
+    prevQ.addEventListener('click',()=>{ if(qi>0){qi--; renderQ()} });
+    nextQ.addEventListener('click',()=>{
+      if(qi<QUIZ.length-1){qi++; renderQ()}
+      else{
+        qFill.style.width = '100%';
+        qText.textContent = 'Resultado';
+        qOptions.innerHTML = '';
+        qExplain.innerHTML = `Você acertou <b>${score}</b> de <b>${QUIZ.length}</b> (${Math.round(score/QUIZ.length*100)}%).`;
+        nextQ.disabled = true; prevQ.disabled = true;
+      }
+    });
+
+    /* Smooth scroll para âncoras */
+    document.addEventListener('click',e=>{
+      const a = e.target.closest('a[href^="#"]'); if(!a) return;
+      const id = a.getAttribute('href').slice(1);
+      const target = document.getElementById(id); if(!target) return;
+      e.preventDefault();
+      window.scrollTo({top:target.offsetTop-70,behavior:'smooth'});
+    });
+
+    /* Pequeno contador animado (exemplo) */
+    function countUp(el,end,dur=1200){
+      const start=0, startT=performance.now();
+      function loop(t){
+        const p=Math.min(1,(t-startT)/dur);
+        el.textContent = Math.round(start + (end-start)*p);
+        if(p<1) requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+    }
+    // demonstração: quando a seção healthy aparecer, contar números fictícios
+    const statIO = new IntersectionObserver(es=>{
+      es.forEach(e=>{
+        if(e.isIntersecting){
+          const nums = $$('[data-count]', e.target);
+          nums.forEach(n=>countUp(n, Number(n.dataset.count)));
+          statIO.unobserve(e.target);
+        }
+      })
+    },{threshold:.3});
+    // você pode adicionar spans com data-count se quiser animar números
+
+  </script>
+</body>
+</html>
